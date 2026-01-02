@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="EN">
+
+<head>
+    <title>MR-MOMIN 🌐 | High Visibility Card Display</title>
+    
+    <link rel="shortcut icon" href="https://img.icons8.com/color/96/000000/card-security.png" />
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="title" content="MR-MOMIN 🌐 — High Visibility Card Display">
+    <meta name="description" content="High visibility formatted card display system">
+    <meta name="author" content="MR-MOMIN 🌐">
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --live-color: #00cc88;
+            --die-color: #ff4d4d;
+            --unknown-color: #ffaa00;
+            --text-color: #ffffff;
+            --bg-dark: #0d1117;
+            --bg-card: #161b22;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+            min-height: 100vh;
+            color: var(--text-color);
+            padding: 10px 0;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 10px;
+        }
+        
+        /* Header */
+        .header-container {
+            background: var(--bg-card);
+            border-radius: 10px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border: 2px solid var(--live-color);
+            box-shadow: 0 4px 12px rgba(0, 204, 136, 0.2);
+        }
+        
+        .logo-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #00cc88, #00a8ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .stats-row {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .stat-item {
+            flex: 1;
+            text-align: center;
+            padding: 8px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .stat-number {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+        
+        .live-stat .stat-number { color: var(--live-color); text-shadow: 0 0 10px rgba(0, 204, 136, 0.5); }
+        .die-stat .stat-number { color: var(--die-color); text-shadow: 0 0 10px rgba(255, 77, 77, 0.5); }
+        .unknown-stat .stat-number { color: var(--unknown-color); text-shadow: 0 0 10px rgba(255, 170, 0, 0.5); }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: #aaa;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+        
+        /* Input Section */
+        .input-section {
+            background: var(--bg-card);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border: 2px solid rgba(0, 204, 136, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .input-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--live-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        textarea.form-control {
+            width: 100%;
+            border: 2px solid rgba(0, 204, 136, 0.5);
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 0.95rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+            min-height: 100px;
+            resize: vertical;
+            margin-bottom: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            color: #ffffff;
+            transition: all 0.3s;
+        }
+        
+        textarea.form-control:focus {
+            border-color: var(--live-color);
+            box-shadow: 0 0 0 3px rgba(0, 204, 136, 0.25);
+            background: rgba(0, 0, 0, 0.7);
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex: 1;
+            min-width: 110px;
+        }
+        
+        .btn i {
+            font-size: 0.9rem;
+        }
+        
+        .btn-start {
+            background: linear-gradient(135deg, var(--live-color), #00a8ff);
+            color: #000;
+        }
+        
+        .btn-start:hover {
+            background: linear-gradient(135deg, #00a8ff, var(--live-color));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 204, 136, 0.4);
+        }
+        
+        .btn-stop {
+            background: linear-gradient(135deg, var(--die-color), #ff3366);
+            color: #000;
+        }
+        
+        .btn-stop:hover {
+            background: linear-gradient(135deg, #ff3366, var(--die-color));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 77, 77, 0.4);
+        }
+        
+        .btn-clear {
+            background: linear-gradient(135deg, #6c757d, #495057);
+            color: #fff;
+        }
+        
+        .btn-clear:hover {
+            background: linear-gradient(135deg, #495057, #6c757d);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(108, 117, 125, 0.4);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+        
+        /* Progress */
+        .progress-container {
+            margin-top: 12px;
+            display: none;
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+            color: #ccc;
+        }
+        
+        .progress {
+            height: 8px;
+            border-radius: 4px;
+            background-color: rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            background: linear-gradient(90deg, var(--live-color), #00a8ff);
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+        
+        /* Three Result Boxes */
+        .results-section {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        
+        @media (min-width: 768px) {
+            .results-section {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        .result-box {
+            background: var(--bg-card);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid;
+            height: 340px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s;
+        }
+        
+        .result-box:hover {
+            transform: translateY(-5px);
+        }
+        
+        .result-box.live-box {
+            border-color: var(--live-color);
+        }
+        
+        .result-box.die-box {
+            border-color: var(--die-color);
+        }
+        
+        .result-box.unknown-box {
+            border-color: var(--unknown-color);
+        }
+        
+        .box-header {
+            padding: 12px 15px;
+            color: white;
+            border-bottom: 2px solid;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .box-header.live {
+            background: linear-gradient(135deg, rgba(0, 204, 136, 0.3), rgba(0, 168, 255, 0.3));
+            border-bottom-color: var(--live-color);
+        }
+        
+        .box-header.die {
+            background: linear-gradient(135deg, rgba(255, 77, 77, 0.3), rgba(255, 51, 102, 0.3));
+            border-bottom-color: var(--die-color);
+        }
+        
+        .box-header.unknown {
+            background: linear-gradient(135deg, rgba(255, 170, 0, 0.3), rgba(255, 204, 0, 0.3));
+            border-bottom-color: var(--unknown-color);
+        }
+        
+        .box-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .box-count {
+            font-size: 1.1rem;
+            font-weight: 800;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
+            min-width: 35px;
+            text-align: center;
+        }
+        
+        /* Box Body - High Visibility Card Display */
+        .box-body {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        /* Scrollbar */
+        .box-body::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .box-body::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+        
+        .box-body::-webkit-scrollbar-thumb {
+            background: var(--live-color);
+            border-radius: 3px;
+        }
+        
+        /* Empty State */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #666;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .empty-state i {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            opacity: 0.3;
+        }
+        
+        .empty-state p {
+            font-size: 0.85rem;
+            color: #888;
+        }
+        
+        /* HIGH VISIBILITY CARD ITEM - Clear and Readable */
+        .clear-card {
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 8px;
+            padding: 12px;
+            border-left: 4px solid;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            animation: fadeIn 0.3s ease;
+            transition: all 0.2s;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            line-height: 1.5;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .clear-card:hover {
+            background: rgba(0, 0, 0, 0.7);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .clear-card.live {
+            border-left-color: var(--live-color);
+            background: linear-gradient(to right, rgba(0, 204, 136, 0.1), rgba(0, 0, 0, 0.6));
+        }
+        
+        .clear-card.die {
+            border-left-color: var(--die-color);
+            background: linear-gradient(to right, rgba(255, 77, 77, 0.1), rgba(0, 0, 0, 0.6));
+        }
+        
+        .clear-card.unknown {
+            border-left-color: var(--unknown-color);
+            background: linear-gradient(to right, rgba(255, 170, 0, 0.1), rgba(0, 0, 0, 0.6));
+        }
+        
+        /* Card Number - High Visibility */
+        .card-number-clear {
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #ffffff;
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Card Details - Clear and Separated */
+        .card-details-clear {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+        
+        .expiry-clear {
+            color: #00a8ff;
+            font-weight: 600;
+            background: rgba(0, 168, 255, 0.1);
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+        
+        .cvv-clear {
+            color: #ffcc00;
+            font-weight: 600;
+            background: rgba(255, 204, 0, 0.1);
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+        
+        /* Balance Display - Clear and Prominent */
+        .balance-clear {
+            font-size: 1rem;
+            font-weight: 800;
+            text-align: center;
+            padding: 6px;
+            border-radius: 6px;
+            margin-top: 5px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .balance-live {
+            color: var(--live-color);
+            text-shadow: 0 0 8px rgba(0, 204, 136, 0.5);
+        }
+        
+        .balance-die {
+            color: var(--die-color);
+            text-shadow: 0 0 8px rgba(255, 77, 77, 0.5);
+        }
+        
+        .balance-unknown {
+            color: var(--unknown-color);
+            text-shadow: 0 0 8px rgba(255, 170, 0, 0.5);
+        }
+        
+        /* Card Type Badge */
+        .card-type-badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 4px;
+            margin-right: 8px;
+            color: white;
+        }
+        
+        .type-visa {
+            background: linear-gradient(45deg, #1a1f71, #f7b600);
+        }
+        
+        .type-mastercard {
+            background: linear-gradient(45deg, #eb001b, #f79e1b);
+        }
+        
+        .type-amex {
+            background: linear-gradient(45deg, #2e77bb, #6ec5e8);
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--bg-card);
+            color: #aaa;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 15px;
+            border: 2px solid rgba(0, 204, 136, 0.3);
+        }
+        
+        .footer-logo {
+            font-size: 1.2rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--live-color), #00a8ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+        
+        .copyright {
+            font-size: 0.8rem;
+            margin-top: 5px;
+            color: #777;
+        }
+        
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            min-width: 250px;
+            max-width: 300px;
+            font-size: 0.85rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 767px) {
+            .results-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .result-box {
+                height: 320px;
+            }
+            
+            .logo {
+                font-size: 1.5rem;
+            }
+            
+            .btn {
+                min-width: 100px;
+                padding: 8px 12px;
+            }
+            
+            .card-number-clear {
+                font-size: 0.9rem;
+            }
+        }
+        
+        /* Animation for new cards */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        
+        .new-clear-card {
+            animation: pulse 0.5s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header-container">
+            <div class="logo-row">
+                <div class="logo">MR-MOMIN 🌐</div>
+                <div style="font-size: 0.8rem; color: #aaa; font-weight: 600;">High Visibility Display</div>
+            </div>
+            
+            <!-- Stats -->
+            <div class="stats-row">
+                <div class="stat-item live-stat">
+                    <div class="stat-number" id="liveCount">0</div>
+                    <div class="stat-label">LIVE</div>
+                </div>
+                <div class="stat-item die-stat">
+                    <div class="stat-number" id="dieCount">0</div>
+                    <div class="stat-label">DEAD</div>
+                </div>
+                <div class="stat-item unknown-stat">
+                    <div class="stat-number" id="unknownCount">0</div>
+                    <div class="stat-label">UNKNOWN</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Input Section -->
+        <div class="input-section">
+            <div class="input-title">
+                <i class="fas fa-credit-card"></i> Paste Card Details
+            </div>
+            
+            <form id="cardForm">
+                <textarea class="form-control" id="cardInput" placeholder="Format: CARDNUMBER|MM|YYYY|CVV&#10;Example: 5154620020024012|06|2033|075&#10;5154620020028765|09|2027|348"></textarea>
+                
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-start" id="startBtn">
+                        <i class="fas fa-play"></i> Start Check
+                    </button>
+                    <button type="button" class="btn btn-stop" id="stopBtn" disabled>
+                        <i class="fas fa-stop"></i> Stop
+                    </button>
+                    <button type="button" class="btn btn-clear" id="clearBtn">
+                        <i class="fas fa-trash"></i> Clear All
+                    </button>
+                </div>
+            </form>
+            
+            <!-- Progress -->
+            <div class="progress-container" id="progressContainer">
+                <div class="progress-label">
+                    <span>Verification Progress</span>
+                    <span id="progressPercent">0%</span>
+                </div>
+                <div class="progress">
+                    <div id="progressBar" class="progress-bar" style="width: 0%"></div>
+                </div>
+                <div style="text-align: center; margin-top: 6px; font-size: 0.8rem; color: #aaa;" id="statusText">
+                    Ready to verify cards...
+                </div>
+            </div>
+        </div>
+
+        <!-- Three High Visibility Boxes -->
+        <div class="results-section">
+            <!-- Live Box -->
+            <div class="result-box live-box">
+                <div class="box-header live">
+                    <div class="box-title">
+                        <i class="fas fa-check-circle"></i> LIVE CARDS
+                    </div>
+                    <div class="box-count" id="liveBoxCount">0</div>
+                </div>
+                <div class="box-body" id="liveBox">
+                    <div class="empty-state">
+                        <i class="fas fa-check-circle"></i>
+                        <p>Live cards will appear here</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dead Box -->
+            <div class="result-box die-box">
+                <div class="box-header die">
+                    <div class="box-title">
+                        <i class="fas fa-times-circle"></i> DEAD CARDS
+                    </div>
+                    <div class="box-count" id="dieBoxCount">0</div>
+                </div>
+                <div class="box-body" id="dieBox">
+                    <div class="empty-state">
+                        <i class="fas fa-times-circle"></i>
+                        <p>Dead cards will appear here</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Unknown Box -->
+            <div class="result-box unknown-box">
+                <div class="box-header unknown">
+                    <div class="box-title">
+                        <i class="fas fa-question-circle"></i> UNKNOWN CARDS
+                    </div>
+                    <div class="box-count" id="unknownBoxCount">0</div>
+                </div>
+                <div class="box-body" id="unknownBox">
+                    <div class="empty-state">
+                        <i class="fas fa-question-circle"></i>
+                        <p>Unknown cards will appear here</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-logo">MR-MOMIN 🌐</div>
+            <div style="font-size: 0.85rem;">High Visibility Card Verification System</div>
+            <div class="copyright">
+                © 2023 | All rights reserved | For educational purposes only
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Custom Script -->
+    <script>
+        $(document).ready(function() {
+            // Variables
+            let verificationActive = false;
+            
+            // Counters
+            let liveCount = 0;
+            let dieCount = 0;
+            let unknownCount = 0;
+            let totalCards = 0;
+            let processedCards = 0;
+            
+            // DOM Elements
+            const $form = $('#cardForm');
+            const $cardInput = $('#cardInput');
+            const $startBtn = $('#startBtn');
+            const $stopBtn = $('#stopBtn');
+            const $clearBtn = $('#clearBtn');
+            const $progressContainer = $('#progressContainer');
+            const $progressBar = $('#progressBar');
+            const $progressPercent = $('#progressPercent');
+            const $statusText = $('#statusText');
+            
+            // Boxes
+            const $liveBox = $('#liveBox');
+            const $dieBox = $('#dieBox');
+            const $unknownBox = $('#unknownBox');
+            
+            // Card types
+            const cardTypes = [
+                { type: "Visa", badge: "type-visa" },
+                { type: "MasterCard", badge: "type-mastercard" },
+                { type: "Amex", badge: "type-amex" }
+            ];
+            
+            // Generate formatted balance
+            function generateFormattedBalance() {
+                // Generate random balance between 0.01 and 999.99
+                const balance = (Math.random() * 1000).toFixed(2);
+                
+                // Add leading zero if less than 10
+                if (parseFloat(balance) < 10) {
+                    return `0${balance}`;
+                }
+                
+                // Format based on value
+                if (parseFloat(balance) > 500) {
+                    return `$${balance}`;
+                } else if (parseFloat(balance) > 100) {
+                    return `${balance}`;
+                } else {
+                    return `${balance}`;
+                }
+            }
+            
+            // Detect card type
+            function detectCardType(number) {
+                const cleanNumber = number.replace(/\s/g, '');
+                if (/^4/.test(cleanNumber)) return cardTypes[0];
+                if (/^5[1-5]/.test(cleanNumber)) return cardTypes[1];
+                if (/^3[47]/.test(cleanNumber)) return cardTypes[2];
+                return cardTypes[0];
+            }
+            
+            // Format card for display
+            function formatCardDisplay(cardNumber, expiryMonth, expiryYear, cvv, balance) {
+                // Make sure CVV is 3 digits
+                let formattedCVV = cvv;
+                if (formattedCVV.length === 2) {
+                    formattedCVV = '0' + formattedCVV;
+                } else if (formattedCVV.length === 1) {
+                    formattedCVV = '00' + formattedCVV;
+                }
+                
+                // Make sure month is 2 digits
+                let formattedMonth = expiryMonth;
+                if (formattedMonth.length === 1) {
+                    formattedMonth = '0' + formattedMonth;
+                }
+                
+                // Format year (full 4 digits)
+                let formattedYear = expiryYear;
+                if (formattedYear.length === 2) {
+                    const currentYear = new Date().getFullYear();
+                    const century = Math.floor(currentYear / 100) * 100;
+                    formattedYear = century + parseInt(formattedYear);
+                }
+                
+                // Format card number with spaces for readability
+                const formattedNumber = cardNumber.replace(/(\d{4})(?=\d)/g, '$1 ');
+                
+                // Return formatted components
+                return {
+                    number: formattedNumber,
+                    expiry: `${formattedMonth}/${formattedYear}`,
+                    cvv: formattedCVV,
+                    balance: balance,
+                    type: detectCardType(cardNumber)
+                };
+            }
+            
+            // Update counters
+            function updateCounters() {
+                $('#liveCount').text(liveCount);
+                $('#dieCount').text(dieCount);
+                $('#unknownCount').text(unknownCount);
+                
+                $('#liveBoxCount').text(liveCount);
+                $('#dieBoxCount').text(dieCount);
+                $('#unknownBoxCount').text(unknownCount);
+            }
+            
+            // Update progress
+            function updateProgress(current, total) {
+                const percent = Math.round((current / total) * 100);
+                $progressBar.css('width', percent + '%');
+                $progressPercent.text(percent + '%');
+                $statusText.html(`Processing: ${current} of ${total} cards`);
+            }
+            
+            // Add clear card to box
+            function addClearCardToBox(cardData, status, balance = null) {
+                const cardInfo = cardData.split('|');
+                const cardNumber = cardInfo[0] || '';
+                const expiryMonth = cardInfo[1] || '';
+                const expiryYear = cardInfo[2] || '';
+                const cvv = cardInfo[3] || '';
+                
+                // Generate balance if not provided (for live cards)
+                if (status === 'live' && balance === null) {
+                    balance = generateFormattedBalance();
+                } else if (status === 'die') {
+                    balance = 'DECLINED';
+                } else if (status === 'unknown') {
+                    balance = 'UNKNOWN';
+                }
+                
+                // Format the card
+                const formatted = formatCardDisplay(cardNumber, expiryMonth, expiryYear, cvv, balance);
+                
+                // Determine CSS class for balance
+                let balanceClass = '';
+                if (status === 'live') {
+                    balanceClass = 'balance-live';
+                } else if (status === 'die') {
+                    balanceClass = 'balance-die';
+                } else {
+                    balanceClass = 'balance-unknown';
+                }
+                
+                // Create clear card item
+                const clearCardHTML = `
+                    <div class="clear-card ${status} new-clear-card">
+                        <div class="card-number-clear">${formatted.number}</div>
+                        <div class="card-details-clear">
+                            <span class="expiry-clear">Exp: ${formatted.expiry}</span>
+                            <span class="cvv-clear">CVV: ${formatted.cvv}</span>
+                        </div>
+                        <div class="balance-clear ${balanceClass}">
+                            ${formatted.type ? `<span class="card-type-badge ${formatted.type.badge}">${formatted.type.type}</span>` : ''}
+                            ${balance}
+                        </div>
+                    </div>
+                `;
+                
+                // Add to appropriate box
+                const $box = status === 'live' ? $liveBox : 
+                            status === 'die' ? $dieBox : $unknownBox;
+                
+                // Remove empty state if exists
+                $box.find('.empty-state').remove();
+                
+                // Add card at the top
+                $box.prepend(clearCardHTML);
+                
+                // Remove new-card animation class after animation completes
+                setTimeout(() => {
+                    $box.find('.new-clear-card').removeClass('new-clear-card');
+                }, 500);
+                
+                // Limit to 6 clear cards per box
+                const $cards = $box.find('.clear-card');
+                if ($cards.length > 6) {
+                    $cards.last().remove();
+                }
+            }
+            
+            // Start verification
+            function startVerification(cardLines) {
+                verificationActive = true;
+                totalCards = cardLines.length;
+                processedCards = 0;
+                
+                // Reset counters
+                liveCount = 0;
+                dieCount = 0;
+                unknownCount = 0;
+                
+                // Clear boxes
+                $liveBox.html('<div class="empty-state"><i class="fas fa-check-circle"></i><p>Live cards will appear here</p></div>');
+                $dieBox.html('<div class="empty-state"><i class="fas fa-times-circle"></i><p>Dead cards will appear here</p></div>');
+                $unknownBox.html('<div class="empty-state"><i class="fas fa-question-circle"></i><p>Unknown cards will appear here</p></div>');
+                
+                // Update UI
+                $startBtn.prop('disabled', true);
+                $stopBtn.prop('disabled', false);
+                $clearBtn.prop('disabled', true);
+                $cardInput.prop('disabled', true);
+                $progressContainer.show();
+                
+                // Update counters
+                updateCounters();
+                
+                // Process cards
+                processNextCard(cardLines, 0);
+            }
+            
+            // Process next card
+            function processNextCard(cardLines, index) {
+                if (!verificationActive || index >= cardLines.length) {
+                    completeVerification();
+                    return;
+                }
+                
+                const cardData = cardLines[index];
+                
+                // Simulate API call delay
+                setTimeout(() => {
+                    // Generate random status (60% live, 30% die, 10% unknown)
+                    const random = Math.random();
+                    let status, balance = null;
+                    
+                    if (random < 0.6) { // 60% live
+                        status = 'live';
+                        balance = generateFormattedBalance();
+                        liveCount++;
+                    } else if (random < 0.9) { // 30% die
+                        status = 'die';
+                        dieCount++;
+                    } else { // 10% unknown
+                        status = 'unknown';
+                        unknownCount++;
+                    }
+                    
+                    // Add clear card to box
+                    addClearCardToBox(cardData, status, balance);
+                    
+                    // Update counters and progress
+                    processedCards++;
+                    updateCounters();
+                    updateProgress(index + 1, cardLines.length);
+                    
+                    // Process next card
+                    if (verificationActive) {
+                        processNextCard(cardLines, index + 1);
+                    }
+                }, 700 + Math.random() * 300); // Fast processing
+            }
+            
+            // Complete verification
+            function completeVerification() {
+                verificationActive = false;
+                
+                // Update UI
+                $startBtn.prop('disabled', false);
+                $stopBtn.prop('disabled', true);
+                $clearBtn.prop('disabled', false);
+                $cardInput.prop('disabled', false);
+                
+                $statusText.html('<span style="color: #00cc88; font-weight: 600;">✓ Verification Complete</span>');
+                
+                // Show notification
+                showNotification(`Successfully verified ${totalCards} cards`, 'success');
+            }
+            
+            // Stop verification
+            function stopVerification() {
+                verificationActive = false;
+                
+                // Update UI
+                $startBtn.prop('disabled', false);
+                $stopBtn.prop('disabled', true);
+                $clearBtn.prop('disabled', false);
+                $cardInput.prop('disabled', false);
+                
+                $statusText.html('<span style="color: #ff4d4d; font-weight: 600;">✗ Verification Stopped</span>');
+                
+                showNotification('Verification process stopped', 'warning');
+            }
+            
+            // Clear all
+            function clearAll() {
+                $cardInput.val('');
+                $liveBox.html('<div class="empty-state"><i class="fas fa-check-circle"></i><p>Live cards will appear here</p></div>');
+                $dieBox.html('<div class="empty-state"><i class="fas fa-times-circle"></i><p>Dead cards will appear here</p></div>');
+                $unknownBox.html('<div class="empty-state"><i class="fas fa-question-circle"></i><p>Unknown cards will appear here</p></div>');
+                
+                liveCount = 0;
+                dieCount = 0;
+                unknownCount = 0;
+                processedCards = 0;
+                
+                updateCounters();
+                $progressContainer.hide();
+                $statusText.html('Ready to verify cards...');
+                
+                showNotification('All data cleared successfully', 'info');
+                
+                // Focus on input
+                $cardInput.focus();
+            }
+            
+            // Show notification
+            function showNotification(message, type) {
+                // Create notification
+                const $notification = $(`
+                    <div class="alert alert-${type} alert-dismissible fade show notification" role="alert">
+                        <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'} me-2"></i>
+                        ${message}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                `);
+                
+                $('body').append($notification);
+                
+                // Auto remove after 3 seconds
+                setTimeout(() => {
+                    $notification.alert('close');
+                }, 3000);
+            }
+            
+            // Event Listeners
+            $form.on('submit', function(e) {
+                e.preventDefault();
+                
+                const cardLines = $cardInput.val().trim().split('\n')
+                    .map(line => line.trim())
+                    .filter(line => line !== '');
+                
+                if (cardLines.length === 0) {
+                    showNotification('Please enter card details to verify', 'warning');
+                    return;
+                }
+                
+                startVerification(cardLines);
+            });
+            
+            $stopBtn.on('click', stopVerification);
+            $clearBtn.on('click', clearAll);
+            
+            // Auto focus on textarea
+            $cardInput.focus();
+            
+            // Add example data on double click
+            $cardInput.on('dblclick', function() {
+                if ($(this).val().trim() === '') {
+                    $(this).val(`5154620020024012|06|2033|075
+5154620020028765|09|2027|348
+5154620020040448|12|2029|979
+5154620020051411|11|2026|580
+5154620020062384|03|2028|123
+5154620020073357|08|2030|456
+5154620020084320|05|2031|789
+5154620020095293|07|2032|012
+5154620020106266|04|2025|345
+5154620020117239|10|2024|678`);
+                    showNotification('Example card data loaded', 'info');
+                }
+            });
+        });
+    </script>
+</body>
+  </html>
